@@ -15,8 +15,10 @@ def load_used_codes():
 
     with open(FILE_PATH, mode='r', newline='', encoding='utf-8') as f:
         reader = csv.reader(f)
-        for project_id, code in reader:
-            used_codes.setdefault(project_id, set()).add(code)
+        for row in reader:
+            if len(row) >= 2:
+                project_id, code = row[0], row[1]
+                used_codes.setdefault(project_id, set()).add(code)
 
 def is_code_used(project_id: str, code: str) -> bool:
     with registry_lock:
